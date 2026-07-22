@@ -1,0 +1,28 @@
+<% content_for :title, "Book a slot" %>
+
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header fw-semibold">
+        <%= availability.date.to_fs(:long) %> at <%= slot.start_time&.strftime("%H:%M") %>
+      </div>
+      <div class="card-body">
+        <p class="text-body-secondary">
+          <%= availability.coach.name %> &middot; <%= availability.location %> &middot; <%= availability.slot_length %> minutes
+        </p>
+
+        <%= simple_form_for slot, as: :slot, url: availability_bookings_path(availability) do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :parent_name, label: "Parent name" %>
+          <%= f.input :player_name, label: "Player name" %>
+          <%= f.input :start_time, as: :hidden, input_html: { value: slot.start_time&.strftime("%H:%M") } %>
+
+          <div class="d-flex gap-2 mt-3">
+            <%= f.button :submit, "Book this slot", class: "btn btn-primary" %>
+            <%= link_to "Cancel", root_path, class: "btn btn-outline-secondary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

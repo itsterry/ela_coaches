@@ -1,0 +1,42 @@
+<% content_for :title, "My availabilities" %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h3 mb-0">My availabilities</h1>
+  <%= link_to "Add availability", new_coaches_availability_path, class: "btn btn-primary" %>
+</div>
+
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0 align-middle">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Times</th>
+          <th scope="col">Slot length</th>
+          <th scope="col">Location</th>
+          <th scope="col">Status</th>
+          <th scope="col">Booked</th>
+          <th scope="col"><span class="visually-hidden">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% availabilities.each do |availability| %>
+          <tr>
+            <td><%= link_to availability.date.to_fs(:long), coaches_availability_path(availability) %></td>
+            <td><%= availability.start_time.strftime("%H:%M") %> &ndash; <%= availability.finish_time.strftime("%H:%M") %></td>
+            <td><%= availability.slot_length %> minutes</td>
+            <td><%= availability.location %></td>
+            <td>
+              <span class="badge text-bg-<%= availability.published? ? "success" : "secondary" %>"><%= availability.status.titleize %></span>
+            </td>
+            <td><%= availability.taken_times.count %> / <%= availability.slot_times.count %></td>
+            <td class="text-end">
+              <%= link_to "Edit", edit_coaches_availability_path(availability), class: "btn btn-sm btn-outline-secondary" %>
+              <%= button_to "Delete", coaches_availability_path(availability), method: :delete, class: "btn btn-sm btn-outline-danger", form: { data: { turbo_confirm: "Delete this availability and all its bookings?" }, class: "d-inline" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

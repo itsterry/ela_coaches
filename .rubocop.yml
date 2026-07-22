@@ -1,0 +1,11 @@
+# Omakase Ruby styling for Rails
+inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+
+AllCops:
+  Exclude:
+    - "bin/**/*"
+    - "db/schema.rb"
+    - "db/*_schema.rb"
+    - "node_modules/**/*"
+    - "spec/**/*"
+    - "vendor/**/*"

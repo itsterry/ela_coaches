@@ -1,0 +1,36 @@
+<% content_for :title, "Book a coaching session" %>
+
+<h1 class="h3 mb-4">Book a coaching session</h1>
+
+<% if availabilities.none? %>
+  <p class="text-body-secondary">There are no sessions available to book at the moment.</p>
+<% end %>
+
+<div class="row g-4">
+  <% availabilities.each do |availability| %>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header fw-semibold"><%= availability.date.to_fs(:long) %></div>
+        <div class="card-body">
+          <p class="text-body-secondary mb-1"><%= availability.coach.name %></p>
+          <p class="mb-3">
+            <span class="badge text-bg-<%= availability.zoom? ? "info" : "secondary" %>"><%= availability.location %></span>
+            <span class="badge text-bg-light"><%= availability.slot_length %> minutes</span>
+          </p>
+
+          <div class="slot-grid">
+            <% availability.slot_times.each do |time| %>
+              <% if availability.taken?(time) %>
+                <button type="button" class="btn btn-sm btn-outline-secondary" disabled><%= time.strftime("%H:%M") %></button>
+              <% else %>
+                <%= link_to time.strftime("%H:%M"),
+                            new_availability_booking_path(availability, start_time: time.strftime("%H:%M")),
+                            class: "btn btn-sm btn-outline-primary" %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

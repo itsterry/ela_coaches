@@ -1,0 +1,35 @@
+name: Dependabot Auto-merge
+
+on:
+  pull_request
+
+# These permissions are required for the workflow to approve and merge PRs
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    
+    # Check 1: Only run on PRs opened by Dependabot
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v3
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Approve and auto-merge for minor bumps
+        # Check 2: Only run for 'minor' or 'patch' updates. 
+        if: |
+          steps.metadata.outputs.update-type == 'version-update:semver-minor' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        run: |
+          gh pr review --approve "$PR_URL"
+          gh pr merge --auto --rebase "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

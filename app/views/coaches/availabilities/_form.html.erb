@@ -1,0 +1,15 @@
+<%= simple_form_for [ :coaches, availability ] do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :date, as: :date, html5: true %>
+  <%= f.input :start_time, as: :time, html5: true %>
+  <%= f.input :finish_time, as: :time, html5: true %>
+  <%= f.input :slot_length, label: "Slot length (minutes)" %>
+  <%= f.input :zoom, label: "Zoom session (leave unticked for face to face)" %>
+  <%= f.input :status, collection: Availability::STATUSES.map { |status| [ status.titleize, status ] }, include_blank: false %>
+
+  <div class="d-flex gap-2 mt-3">
+    <%= f.button :submit, class: "btn btn-primary" %>
+    <%= link_to "Cancel", coaches_availabilities_path, class: "btn btn-outline-secondary" %>
+  </div>
+<% end %>

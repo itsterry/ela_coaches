@@ -1,0 +1,43 @@
+<% content_for :title, "Availability" %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h3 mb-0"><%= availability.date.to_fs(:long) %></h1>
+  <%= link_to "Edit", edit_coaches_availability_path(availability), class: "btn btn-outline-secondary" %>
+</div>
+
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <p class="mb-1"><strong>Times:</strong> <%= availability.start_time.strftime("%H:%M") %> &ndash; <%= availability.finish_time.strftime("%H:%M") %></p>
+    <p class="mb-1"><strong>Slot length:</strong> <%= availability.slot_length %> minutes</p>
+    <p class="mb-1"><strong>Location:</strong> <%= availability.location %></p>
+    <p class="mb-0"><strong>Status:</strong> <%= availability.status.titleize %></p>
+  </div>
+</div>
+
+<h2 class="h5 mb-3">Slots</h2>
+
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table mb-0 align-middle">
+      <thead>
+        <tr>
+          <th scope="col">Time</th>
+          <th scope="col">Parent</th>
+          <th scope="col">Player</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% availability.slot_times.each do |time| %>
+          <% slot = availability.slots.detect { |booked| booked.start_time == time } %>
+          <tr>
+            <td><%= time.strftime("%H:%M") %></td>
+            <td><%= slot&.parent_name || content_tag(:span, "Free", class: "text-body-secondary") %></td>
+            <td><%= slot&.player_name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<p class="mt-4"><%= link_to "Back to availabilities", coaches_availabilities_path %></p>

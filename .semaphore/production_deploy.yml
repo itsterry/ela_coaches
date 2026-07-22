@@ -1,0 +1,31 @@
+version: v1.0
+
+name: Deploy to Production
+
+agent:
+  machine:
+    type: e2-standard-2
+    os_image: ubuntu2604
+
+blocks:
+  - name: Kamal
+    task:
+      secrets:
+        - name: deploy_key
+        - name: ela-coaches-env
+      prologue:
+        commands:
+          - chmod 0600 ~/.keys/*
+          - ssh-add ~/.keys/*
+      jobs:
+        - name: Deploy
+          commands:
+            - checkout
+            - cache restore
+            - sem-version ruby 4.0.6
+            - gem install kamal
+            - bundle config set --local deployment 'true'
+            - bundle install
+            - kamal deploy
+            - kamal after_party
+            - cache store

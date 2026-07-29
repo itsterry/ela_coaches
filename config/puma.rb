@@ -29,9 +29,10 @@ threads_count = ENV.fetch("RAILS_MAX_THREADS", 5)
 threads threads_count, threads_count
 
 # Run clustered in production so all cores are used. Keep the database pool in
-# config/database.yml matched to RAILS_MAX_THREADS.
+# config/database.yml matched to RAILS_MAX_THREADS. The default tracks the two
+# cores on the deploy host; a single-worker Puma cannot survive load.
 if ENV.fetch("RAILS_ENV", "development") == "production"
-  workers ENV.fetch("WEB_CONCURRENCY", 4)
+  workers Integer(ENV.fetch("WEB_CONCURRENCY", 2))
   preload_app!
 end
 
@@ -42,7 +43,10 @@ port ENV.fetch("PORT", 3000)
 plugin :tmp_restart
 
 # Run the Solid Queue supervisor inside of Puma for single-server deployments.
-plugin :solid_queue if ENV["SOLID_QUEUE_IN_PUMA"]
+# Compared against "true" rather than tested for presence: the string "false"
+# is itself truthy, which would fork a supervisor per web worker even when a
+# dedicated job container is already running bin/jobs.
+plugin :solid_queue if ENV["SOLID_QUEUE_IN_PUMA"] == "true"
 
 # Specify the PID file. Defaults to tmp/pids/server.pid in development.
 # In other environments, only set the PID file if requested.

@@ -1,0 +1,9 @@
+[mysqld]
+# Bound mysqld memory on the 4GB host so it isn't the OOM victim alongside
+# two Puma workers and the job container.
+innodb_buffer_pool_size = 256M
+performance_schema = OFF
+# Two web workers plus the job container each hold a pool per database
+# (primary, cache, queue, cable) of RAILS_MAX_THREADS connections, so the
+# ceiling is 3 x 4 x 5 = 60 before any headroom for console sessions.
+max_connections = 100

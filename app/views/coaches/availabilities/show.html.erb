@@ -24,6 +24,8 @@
           <th scope="col">Time</th>
           <th scope="col">Parent</th>
           <th scope="col">Player</th>
+          <th scope="col">Email</th>
+          <th scope="col"><span class="visually-hidden">Actions</span></th>
         </tr>
       </thead>
       <tbody>
@@ -33,6 +35,16 @@
             <td><%= time.strftime("%H:%M") %></td>
             <td><%= slot&.parent_name || content_tag(:span, "Free", class: "text-body-secondary") %></td>
             <td><%= slot&.player_name %></td>
+            <td><%= slot&.parent_email %></td>
+            <td class="text-end">
+              <% if slot %>
+                <%= button_to "Cancel booking",
+                              coaches_slot_path(slot),
+                              method: :delete,
+                              class: "btn btn-sm btn-outline-danger",
+                              form: { data: { turbo_confirm: "Cancel #{slot.player_name}'s booking at #{time.strftime("%H:%M")}? The parent will be emailed." } } %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>

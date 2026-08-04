@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_22_150046) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_04_111446) do
   create_table "availabilities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "coach_id", null: false
     t.datetime "created_at", null: false
@@ -52,12 +52,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_22_150046) do
   create_table "slots", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "availability_id", null: false
     t.datetime "created_at", null: false
+    t.string "parent_email", null: false
     t.string "parent_name", null: false
     t.string "player_name", null: false
     t.time "start_time", null: false
     t.datetime "updated_at", null: false
+    t.string "uuid", null: false
+    t.index ["availability_id", "parent_email"], name: "index_slots_on_availability_id_and_parent_email", unique: true
     t.index ["availability_id", "start_time"], name: "index_slots_on_availability_id_and_start_time", unique: true
     t.index ["availability_id"], name: "index_slots_on_availability_id"
+    t.index ["uuid"], name: "index_slots_on_uuid", unique: true
   end
 
   add_foreign_key "availabilities", "coaches"

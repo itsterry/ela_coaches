@@ -1,0 +1,18 @@
+<p>Hello <%= slot.parent_name %>,</p>
+
+<p>Your booking is confirmed.</p>
+
+<ul>
+  <li><strong>Coach:</strong> <%= slot.availability.coach.name %></li>
+  <li><strong>Player:</strong> <%= slot.player_name %></li>
+  <li><strong>Date:</strong> <%= slot.availability.date.to_fs(:long) %></li>
+  <li><strong>Time:</strong> <%= slot.start_time.strftime("%H:%M") %> (<%= slot.availability.slot_length %> minutes)</li>
+  <li><strong>Where:</strong> <%= slot.availability.location %></li>
+</ul>
+
+<p>
+  Need to cancel? Use <%= link_to "this cancellation link", cancellation_url(slot.uuid) %>.
+  You will be asked to confirm before anything changes.
+</p>
+
+<p>Reply to this email if you need to change the booking.</p>

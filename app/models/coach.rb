@@ -1,5 +1,5 @@
 class Coach < ApplicationRecord
-  EMAIL_FORMAT = /\A[^@\s]+@[^@\s]+\.[a-z]{2,}\z/i
+  include Emailable
 
   extend FriendlyId
 
@@ -7,12 +7,12 @@ class Coach < ApplicationRecord
 
   has_secure_password
 
+  has_email :email
+
   has_many :availabilities, dependent: :destroy
   has_many :sessions, dependent: :destroy
 
-  normalizes :email, with: ->(email) { email.strip.downcase }
-
-  validates :email, presence: true, uniqueness: true, format: { with: EMAIL_FORMAT }
+  validates :email, uniqueness: true
   validates :firstname, presence: true
   validates :lastname, presence: true
 

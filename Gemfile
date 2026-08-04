@@ -4,6 +4,7 @@ gem "acts_as_list"
 gem "acts_as_paranoid"
 gem "after_party"
 gem "ancestry"
+gem "aws-actionmailer-ses", "~> 1.0"
 gem "aws-sdk-s3", require: false
 
 gem "bcrypt", "~> 3.1"

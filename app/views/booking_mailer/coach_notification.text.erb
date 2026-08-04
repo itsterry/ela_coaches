@@ -1,0 +1,11 @@
+Hello <%= slot.availability.coach.firstname %>,
+
+A new slot has been booked.
+
+Player: <%= slot.player_name %>
+Parent: <%= slot.parent_name %> (<%= slot.parent_email %>)
+Date: <%= slot.availability.date.to_fs(:long) %>
+Time: <%= slot.start_time.strftime("%H:%M") %> (<%= slot.availability.slot_length %> minutes)
+Where: <%= slot.availability.location %>
+
+Reply to this email to contact the parent.

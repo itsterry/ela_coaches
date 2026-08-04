@@ -1,0 +1,12 @@
+<p>Hello <%= slot.parent_name %>,</p>
+
+<p>Your booking has been cancelled.</p>
+
+<ul>
+  <li><strong>Coach:</strong> <%= slot.availability.coach.name %></li>
+  <li><strong>Player:</strong> <%= slot.player_name %></li>
+  <li><strong>Date:</strong> <%= slot.availability.date.to_fs(:long) %></li>
+  <li><strong>Time:</strong> <%= slot.start_time.strftime("%H:%M") %></li>
+</ul>
+
+<p>You can <%= link_to "book another slot", root_url %> whenever you are ready.</p>

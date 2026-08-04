@@ -1,0 +1,27 @@
+<% content_for :title, "Cancel your booking" %>
+
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header fw-semibold">Cancel this booking?</div>
+      <div class="card-body">
+        <ul class="list-unstyled mb-4">
+          <li><strong>Coach:</strong> <%= slot.availability.coach.name %></li>
+          <li><strong>Player:</strong> <%= slot.player_name %></li>
+          <li><strong>Date:</strong> <%= slot.availability.date.to_fs(:long) %></li>
+          <li><strong>Time:</strong> <%= slot.start_time.strftime("%H:%M") %> (<%= slot.availability.slot_length %> minutes)</li>
+          <li><strong>Where:</strong> <%= slot.availability.location %></li>
+        </ul>
+
+        <p class="text-body-secondary">
+          This releases the slot for another player. You will need to book again if you change your mind.
+        </p>
+
+        <div class="d-flex gap-2 mt-3">
+          <%= button_to "Yes, cancel this booking", cancellation_path(slot.uuid), method: :delete, class: "btn btn-danger" %>
+          <%= link_to "Keep the booking", root_path, class: "btn btn-outline-secondary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,10 @@ RSpec.describe "routes", type: :routing do
 
   route_check_resource "/coaches/availabilities", "coaches/availabilities"
 
+  route_check_resource "/cancellations", "cancellations", {}, %i[show destroy], :uuid
+
+  route_check_resource "/coaches/slots", "coaches/slots", {}, %i[destroy]
+
   route_check_resource "/availabilities/1/bookings",
                        "bookings",
                        { availability_id: "1" },

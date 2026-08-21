@@ -44,7 +44,7 @@ gem "stimulus-rails"
 gem "super_diff"
 
 gem "thruster", require: false
-gem "trilogy", "~> 2.7"
+gem "trilogy", "~> 2.13"
 gem "turbo-rails"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 

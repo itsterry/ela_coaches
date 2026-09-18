@@ -4,7 +4,7 @@ name: Deploy to Production
 
 agent:
   machine:
-    type: e2-standard-2
+    type: f1-standard-2
     os_image: ubuntu2604
 
 blocks:

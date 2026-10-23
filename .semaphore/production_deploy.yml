@@ -22,7 +22,7 @@ blocks:
           commands:
             - checkout
             - cache restore
-            - sem-version ruby 4.0.7
+            - sem-version ruby 4.0.8
             - gem install kamal
             - bundle config set --local deployment 'true'
             - bundle install

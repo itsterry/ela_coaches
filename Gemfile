@@ -29,7 +29,7 @@ gem "pry-remote"
 gem "puma", ">= 5.0"
 
 gem "rack-attack"
-gem "rails", "~> 8.1.3"
+gem "rails", "~> 8.1.4"
 gem "ransack"
 gem "rb-readline"
 gem "rollbar"
